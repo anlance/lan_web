@@ -1,0 +1,19 @@
+
+/* 心跳动画 */
+@keyframes heart {
+      0% {
+            transform: translate(0px, 0px);
+      }
+      25% {
+            transform: translate(0px, -4px);
+      }
+      50% {
+            transform: translate(0px, -6px);
+      }
+      75% {
+            transform: translate(0px, -4px);
+      }
+      100% {
+            transform: translate(0px, 0px);
+      }
+}
