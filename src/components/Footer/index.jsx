@@ -50,12 +50,9 @@ class Footer extends React.Component {
 
 
             return (
-                  <div>
+                  <div className="Footer" >
                         <span>我已经看见这世界{day}天{hour}小时{minute}分{second}秒</span>
                         {heart}
-                        <div>
-                              <span>©2020 anlan</span>
-                        </div>
                   </div>
             )
       }

@@ -17,3 +17,9 @@
             transform: translate(0px, 0px);
       }
 }
+
+.Footer {
+      /* margin-top: -40px; */
+      opacity: 0.6;
+      color: #080000;
+}
