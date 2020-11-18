@@ -1,10 +1,12 @@
 import React from 'react';
 import { BugOutlined } from '@ant-design/icons';
 import './index.css'
+import { Layout } from 'antd';
+const { Footer } = Layout;
 
 
 
-class Footer extends React.Component {
+class MyFooter extends React.Component {
 
       constructor(props) {
             super(props);
@@ -50,12 +52,12 @@ class Footer extends React.Component {
 
 
             return (
-                  <div className="Footer" >
-                        <span>我已经看见这世界{day}天{hour}小时{minute}分{second}秒</span>
+                  <Footer className="Footer" >
+                        <span>已见这世界 {day} 天 {hour} 小时 {minute} 分 {second} 秒 </span>
                         {heart}
-                  </div>
+                  </Footer>
             )
       }
 }
 
-export default Footer;
+export default MyFooter;

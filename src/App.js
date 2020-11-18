@@ -1,32 +1,25 @@
 import './App.css';
-import logo from './logo.svg';
-import { Divider, Layout } from 'antd';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import MyHeatMap from './components/chart/HeatMap'
-const { Sider, Content } = Layout;
+import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { routerConfig } from './router/index'
+import { RenderRoutes } from './utils/routerUtils'
+import MyHeader from './components/Header'
+import MyContent from './components/Content'
+import MyFooter from './components/Footer'
 
+class App extends React.Component {
 
-function App() {
-  return (
-    <div className="App">
-      <Layout>
-        <Content>
-          <div className="Bg" style={{ height: '100vh' }}>
-            <Header />
-            <div style={{ minHeight: '60vh' }}>
-              <div style={{ minHeight: '60vh' }}>
-                {/* <MyHeatMap /> */}
-              </div>
-              <div style={{ minHeight: '10vh' }}>
-                <Footer />
-              </div>
-            </div>
-          </div>
-        </Content>
-      </Layout>
-    </div>
-  );
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <MyHeader></MyHeader>
+          <MyContent></MyContent>
+          <MyFooter></MyFooter>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;

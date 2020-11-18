@@ -20,6 +20,7 @@
 
 .Footer {
       /* margin-top: -40px; */
-      opacity: 0.6;
       color: #080000;
+      font-size: 20px;
+      opacity: 0.6;
 }
