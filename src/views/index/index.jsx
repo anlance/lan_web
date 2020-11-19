@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout } from 'antd';
+import MyAvatar from '../../components/avatar'
 
 
 
@@ -13,7 +13,9 @@ class Index extends React.Component {
             let { routes } = this.props
 
             return (
-                  <div>index</div>
+                  <div style={{height: '100%'}}>
+                        {/* <MyAvatar/> */}
+                  </div>
             )
       }
 }

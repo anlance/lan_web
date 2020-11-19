@@ -15,11 +15,11 @@ class MyHeader extends React.Component {
 
       render() {
             
-            let iconStyle = {fontSize: '30px'};
+            let iconStyle = {fontSize: '25px'};
 
             return (
                   <Header style={{ background: '#fff', padding: 0, opacity:0.6}}>
-                        <Menu mode="horizontal" style={{ background: 'rgba(153,204,204,0.4)', fontSize:'30px' }} >
+                        <Menu mode="horizontal" style={{ background: 'rgba(153,204,204,0.4)', fontSize:'25px' }} >
                               <Menu.Item key="home" icon={<HomeOutlined style={iconStyle}/>} style={{ marginLeft: '50px' }} >
                                     <Link to="/">首页</Link>
                               </Menu.Item>
