@@ -13,7 +13,7 @@ class MyQrCode extends React.Component {
                   <QRCode
                         value={this.props.qrUrl} //value参数为生成二维码的链接
                         size={250}               //二维码的宽高尺寸
-                        fgColor="#000000"        //二维码的颜色
+                        fgColor={this.props.fgColor}        //二维码的颜色
                   />
             )
       }

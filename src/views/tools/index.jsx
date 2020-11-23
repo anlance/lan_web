@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col, Input, Empty, Card } from 'antd';
-import MyQrCode from '../../components/tools/qrcode'
-import MyJsonViewer from '../../components/tools/jsonViewer'
-import { empty } from '../../utils/strUtils'
-import { toolEnum, toolPlaceholderEnum } from './toolEnum'
+import { Row, Col, Input, Empty, Card, Tooltip, Badge } from 'antd';
+import MyQrCode from '../../components/tools/qrcode';
+import MyJsonViewer from '../../components/tools/jsonViewer';
+import { empty } from '../../utils/strUtils';
+import { toolEnum, toolPlaceholderEnum } from './toolEnum';
+import { colors, fgColors } from './list';
 import './index.css'
 
 const { TextArea } = Input;
@@ -15,15 +16,13 @@ class Tools extends React.Component {
             this.state = {
                   data: '', // 输入的数据
                   tool: toolEnum.QRCODE, // 工具名 Enum
-                  switched: false
             }
       }
 
       // 改变输入的数据
       changeData = (e) => {
             this.setState({
-                  data: e.target.value,
-                  switched: false
+                  data: e.target.value
             })
       }
 
@@ -31,25 +30,22 @@ class Tools extends React.Component {
       switchTool = (toolStr) => {
             this.setState({
                   tool: toolStr,
-                  data: '',
-                  switched: true
+                  data: undefined
             });
-            console.log(this.state.switched);
       };
 
       render() {
 
-            let { data, tool, switched } = this.state;
+            let { data, tool } = this.state;
 
-            let textAreaSize = { minRows: 15, maxRows: 19 }
-
-            let emptyDiv = <div className="emptyDiv"><Empty description="暂无数据"/></div>;
+            let emptyDiv = <div className="emptyDiv"><Empty description="暂无数据" /></div>;
             let showData = empty;
             let placeholder = toolPlaceholderEnum.QRCODE;
 
-            let qrCode = <div className="emptyDiv"><MyQrCode qrUrl={data} /></div>;
+            let qrCodeFgColor = fgColors[Math.floor((Math.random()*fgColors.length))];
 
-            let jsonViewer = <div style={{textAlign:'left',height:'35vh'}}><MyJsonViewer jsonSrc={data} /></div>
+            let qrCode = <div className="emptyDiv"><MyQrCode qrUrl={data} fgColor={qrCodeFgColor} /></div>;
+            let jsonViewer = <div style={{ textAlign: 'left', height: '35vh' }}><MyJsonViewer jsonSrc={data} /></div>
 
             switch (this.state.tool) {
                   case toolEnum.QRCODE:
@@ -65,11 +61,13 @@ class Tools extends React.Component {
                         break;
             }
 
+            let textAreaSize = { minRows: 15, maxRows: 19 }
+
             const cardStyle = {
                   fontSize: '20px',
                   textAlign: 'center',
                   height: '100%',
-                  overflowY:'auto',
+                  overflowY: 'auto',
                   borderRadius: '1vh'
             };
 
@@ -92,9 +90,14 @@ class Tools extends React.Component {
                         <Row style={{ minHeight: '60vh', padding: '20px' }}>
                               <Col span={11} >
                                     <Card style={cardStyle} hoverable>
-                                    <TextArea onPressEnter={this.changeData} placeholder={placeholder} autoSize={textAreaSize} 
-                                          allowClear={true} showCount={true} style={{fontSize:'20px'}}/>
-                                    <span style={{fontSize:'20px',color:'grey'}}>输入内容，按下回车，即可得到答案</span>
+                                          <TextArea onChange={this.changeData} value={data} placeholder={placeholder} autoSize={textAreaSize}
+                                                allowClear={true} showCount={true} style={{ fontSize: '20px' }} />
+                                          <span style={{ fontSize: '20px', color: 'grey' }}>
+                                                {colors.map(color => (
+                                                      <Badge color={color}/>
+                                                ))}
+                                                <Badge status="processing" />
+                                          </span>
                                     </Card>
                               </Col>
                               <Col span={11} offset={2}>
@@ -104,10 +107,12 @@ class Tools extends React.Component {
                               </Col>
                         </Row>
                         <div style={{ padding: '20px' }}>
-                              <Card title="<<<-------- 工具     -------->>>" style={cardStyle} headStyle={{fontSize:'25px'}}>
-                                    <Card.Grid style={tool == toolEnum.QRCODE?gridSelectedStyle:gridStyle} onClick={() => this.switchTool(toolEnum.QRCODE)}>二维码生成</Card.Grid>
-                                    <Card.Grid style={tool == toolEnum.JSON?gridSelectedStyle:gridStyle} onClick={() => this.switchTool(toolEnum.JSON)}>JSON 格式化</Card.Grid>
-                                    <Card.Grid style={gridStyle} >待开发 ......</Card.Grid>
+                              <Card style={cardStyle} >
+                                    <Card.Grid style={tool == toolEnum.QRCODE ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.QRCODE)}>二维码生成</Card.Grid>
+                                    <Card.Grid style={tool == toolEnum.JSON ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.JSON)}>JSON 格式化</Card.Grid>
+                                    <Tooltip title="敬请期待" color="volcano" key="volcano">
+                                          <Card.Grid style={gridStyle} >未完待续 ......</Card.Grid>
+                                    </Tooltip>
                               </Card>
                         </div>
                   </div>
