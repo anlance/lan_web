@@ -13,6 +13,7 @@ export const colors = [
       'lime'
 ];
 
+// 二维码颜色
 export const fgColors = [
       '#922B21',
       '#B03A2E',
