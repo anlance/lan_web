@@ -10,10 +10,10 @@ class MyMoment extends React.Component {
       render() {
 
             let { time, format } = this.props;
-            let cn = moment(parseInt(time)).format(format);
+            let timeStr = moment(parseInt(time)).format(format);
 
             return (
-                  <div>{cn}</div>
+                  <div>{timeStr}</div>
             )
       }
 }

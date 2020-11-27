@@ -5,8 +5,9 @@ import MyJsonViewer from '../../components/tools/jsonViewer';
 import MyMoment from '../../components/tools/moment';
 import MyMomentSetting from '../../components/tools/moment/settings';
 import { empty } from '../../utils/strUtils';
-import { toolEnum, toolPlaceholderEnum } from './toolEnum';
+import { toolEnum, toolPlaceholderEnum, toolStrEnum } from './toolEnum';
 import { colors, fgColors } from './list';
+import MyEncode from '../../components/tools/code';
 import './index.css'
 
 const { TextArea } = Input;
@@ -58,12 +59,13 @@ class Tools extends React.Component {
 
             // 右
 
-            let qrCodeFgColor = fgColors[Math.floor((Math.random()*fgColors.length))];
+            let qrCodeFgColor = fgColors[Math.floor((Math.random() * fgColors.length))];
 
             // tools
             let qrCode = <div className="emptyDiv"><MyQrCode qrUrl={data} fgColor={qrCodeFgColor} /></div>;
             let jsonViewer = <div style={{ textAlign: 'left', height: '35vh' }}><MyJsonViewer jsonSrc={data} /></div>
-            let moment = <div className="emptyDiv"><MyMoment time={data} format={format}/></div>
+            let moment = <div className="emptyDiv"><MyMoment time={data} format={format} /></div>
+            let encode = <div className="emptyDiv"><MyEncode str={data} /></div>
 
             switch (this.state.tool) {
                   case toolEnum.QRCODE:
@@ -76,8 +78,12 @@ class Tools extends React.Component {
                         break;
                   case toolEnum.MOMENT:
                         showData = empty(data) ? emptyDiv : moment;
-                        settings = <div style={{paddingTop:'20vh'}}><MyMomentSetting getFormat={this.getFormat}/></div>;
+                        settings = <div style={{ paddingTop: '20vh' }}><MyMomentSetting getFormat={this.getFormat} /></div>;
                         placeholder = toolPlaceholderEnum.MOMENT;
+                        break;
+                  case toolEnum.ENCODE:
+                        showData = empty(data) ? emptyDiv : encode;
+                        placeholder = toolPlaceholderEnum.ENCODE;
                         break;
                   default:
                         showData = empty;
@@ -93,7 +99,7 @@ class Tools extends React.Component {
                   overflowY: 'auto',
                   borderRadius: '1vh'
             };
-
+            
             // 工具格样式
             const gridStyle = {
                   width: '20%',
@@ -107,6 +113,7 @@ class Tools extends React.Component {
                   backgroundColor: '#FAD7A0',
                   boxShadow: '5px 5px 5px #888888',
             }
+            
 
             return (
                   <div style={{ minHeight: '87vh', backgroundColor: 'rgba(234, 236, 238 ,0.9)', borderRadius: '1vh' }}>
@@ -117,7 +124,7 @@ class Tools extends React.Component {
                                                 allowClear={true} showCount={true} style={{ fontSize: '20px' }} />
                                           <span style={{ fontSize: '20px', color: 'grey' }}>
                                                 {colors.map(color => (
-                                                      <Badge color={color} key={color}/>
+                                                      <Badge color={color} key={color} />
                                                 ))}
                                                 <Badge status="processing" />
                                           </span>
@@ -134,9 +141,11 @@ class Tools extends React.Component {
                         </Row>
                         <div style={{ padding: '20px' }}>
                               <Card style={cardStyle} >
-                                    <Card.Grid style={tool == toolEnum.QRCODE ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.QRCODE)}>二维码生成</Card.Grid>
-                                    <Card.Grid style={tool == toolEnum.JSON ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.JSON)}>JSON 格式化</Card.Grid>
-                                    <Card.Grid style={tool == toolEnum.MOMENT ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.MOMENT)}>时间转换</Card.Grid>
+                                    {this.state.cardGrid}
+                                    <Card.Grid style={tool === toolEnum.QRCODE ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.QRCODE)}>二维码生成</Card.Grid>
+                                    <Card.Grid style={tool === toolEnum.JSON ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.JSON)}>JSON 格式化</Card.Grid>
+                                    <Card.Grid style={tool === toolEnum.MOMENT ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.MOMENT)}>时间转换</Card.Grid>
+                                    <Card.Grid style={tool === toolEnum.ENCODE ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolEnum.ENCODE)}>中文转Unicode</Card.Grid>
                                     <Tooltip title="敬请期待" color="volcano" key="volcano">
                                           <Card.Grid style={gridStyle} >未完待续 ......</Card.Grid>
                                     </Tooltip>
