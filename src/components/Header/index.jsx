@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Layout } from 'antd';
 import './index.css'
 import { Link } from 'react-router-dom';
-import { HomeOutlined, CarryOutOutlined, ToolOutlined, SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, CarryOutOutlined, ToolOutlined, SettingOutlined, FolderOpenOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 
 
@@ -11,7 +11,6 @@ class MyHeader extends React.Component {
       constructor(props) {
             super(props);
       }
-
 
       render() {
             
@@ -25,6 +24,9 @@ class MyHeader extends React.Component {
                               </Menu.Item>
                               <Menu.Item key="tool" icon={<ToolOutlined style={iconStyle}/>} >
                                     <Link to="/tools">工具</Link>
+                              </Menu.Item>
+                              <Menu.Item key="file" icon={<FolderOpenOutlined style={iconStyle}/>} >
+                                    <Link to="/files">文件中转站</Link>
                               </Menu.Item>
                               <Menu.Item key="setting" icon={<SettingOutlined style={iconStyle}/>} style={{ float: 'right',marginRight: '50px' }} >
                                     设置

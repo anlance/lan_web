@@ -3,6 +3,7 @@ export const  toolEnum =  {
       JSON: 'JSON',
       MOMENT: 'MOMENT',
       ENCODE: 'ENCODE',
+      FILE:'FILE',
 };
 
 export const toolPlaceholderEnum = {
@@ -10,6 +11,7 @@ export const toolPlaceholderEnum = {
       JSON: '输入需要解析成JSON的源数据',
       MOMENT: '输入时间戳或者时间',
       ENCODE: '输入需要进行转换的中文',
+      FILE: '选择上传的文件',
 };
 
 export const toolStrEnum = {
@@ -17,4 +19,5 @@ export const toolStrEnum = {
       JSON: 'JSON 格式化',
       MOMENT: '时间转换',
       ENCODE: '中文转Unicode',
+      FILE: '文件中转站',
 };
