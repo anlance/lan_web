@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {message} from 'antd';
+import { message } from 'antd';
 
 let loadingInstance = {
     close: () => {
@@ -38,7 +38,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         cloneLoading()
-        if (response.success == false ) {
+        if (response.success == false) {
             message.error(response.errMsg, 1.5)
         } else if (response.data && response.code === 200) {
             message.success(response.data, 1.5)
