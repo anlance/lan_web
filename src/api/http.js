@@ -1,14 +1,18 @@
 import axios from 'axios'
-import { message } from 'antd';
+import {
+    message
+} from 'antd';
+import {
+    constant
+} from './constant';
 
 let loadingInstance = {
-    close: () => {
-    }
+    close: () => {}
 }
 // process.env.NODE_ENV === 'production' ? 'http://123.207.49.214:8028' : 'http://123.207.49.214:8028'
 // 创建axios实例
 const service = axios.create({
-    baseURL: "", // api的base_url
+    baseURL: constant.baseURL, // api的base_url
     timeout: 5000, // 请求超时时间
     headers: {
         'Access-Control-Allow-Origin': '*',
@@ -38,14 +42,14 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         cloneLoading()
-        if (response.success == false) {
-            message.error(response.errMsg, 1.5)
-        } else if (response.data && response.code === 200) {
-            message.success(response.data, 1.5)
+        if (response.data.success == false) {
+            message.error(response.data.errMsg, 1.5)
+        } else if (response.data.data && response.data.code === 200) {
+            message.success(response.data.data, 1.5)
         }
         return response.data
     }, error => {
-        console.log('err' + error)// for debug
+        console.log('err' + error) // for debug
         cloneLoading()
         if (error && error.response) {
             switch (error.response.status) {
@@ -82,13 +86,42 @@ service.interceptors.response.use(
                 case 505:
                     error.desc = 'HTTP版本不受支持'
                     break;
+                default:
+                    error.desc = '服务器内部错误'
+                    break;
             }
             message.error(error.desc)
         }
         return Promise.reject(error)
     })
-
 export default service
 
+/**
+ * get 方法封装
+ * @param {string} url url
+ * @param {JSON} params 参数
+ * @returns 
+ */
+export function GET(url, params) {
+    return service({
+        url: url,
+        method: 'get',
+        params: params
+    })
+}
 
-
+/**
+ * post 方法封装
+ * @param {string} url url
+ * @param {JSON} params 参数
+ * @returns 
+ */
+export function POST(url, params) {
+    return service({
+        url: url,
+        data: JSON.stringify(params),
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
+    })
+}

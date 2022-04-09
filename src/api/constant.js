@@ -10,5 +10,5 @@ let judegeSec = () => {
 
 export const constant = {
     // baseURL: judegeSec()? 'https://anlan.club':'http://anlan.club',
-    baseURL: 'http://127.0.0.1:8080',
+    baseURL: 'http://192.168.0.111:8080',
 };
