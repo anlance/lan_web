@@ -4,25 +4,35 @@ import './index.css'
 import { Link } from 'react-router-dom';
 import { HomeOutlined, ToolOutlined, UserOutlined, FolderOpenOutlined } from '@ant-design/icons';
 import LoginModal from '../loginModal';
+import { GET } from "../../api/http";
+import { URL } from '../../api/url';
 
 const { Header } = Layout;
+const login_menu_code = '004';
 
 class MyHeader extends React.Component {
+
 
     constructor(props) {
         super(props);
         this.initMenu();
+        this.state = {
+            menuItemList: JSON.parse(window.localStorage.getItem("menuItemList")),
+        }
     }
 
+    /**
+     * 初始化菜单
+     */
     initMenu = () => {
         if (window.localStorage.getItem("menuItemList") == null || window.localStorage.getItem("menuItemList") === '') {
-            let menuItemList = [
-                { key: "home", icon: "HomeOutlined", url: "/", name: "首页" },
-                { key: "tool", icon: "ToolOutlined", url: "/tools", name: "工具" },
-                { key: "file", icon: "HomeOutlined", url: "/files", name: "文件中转站" },
-                { key: "login", icon: "UserOutlined", url: null, name: "登录" }
-            ]
-            window.localStorage.setItem("menuItemList", JSON.stringify(menuItemList));
+            GET(URL.basicUrl.listMenu, null)
+                .then(response => {
+                    if (response.success === true) {
+                        window.localStorage.setItem("menuItemList", JSON.stringify(response.data));
+                        this.changeMenu();
+                    }
+                });
         }
     }
 
@@ -79,7 +89,7 @@ class MyHeader extends React.Component {
     getMenuItemClickFunction = (itemKey) => {
         let click = null;
         switch (itemKey) {
-            case 'login':
+            case login_menu_code:
                 click = this.showLoginModel;
                 break;
             default:
@@ -96,7 +106,7 @@ class MyHeader extends React.Component {
     getMenuItemStyle = (itemKey) => {
         let style = null;
         switch (itemKey) {
-            case 'login':
+            case login_menu_code:
                 style = { float: 'right', marginRight: '50px' };
                 break;
             default:
@@ -126,22 +136,20 @@ class MyHeader extends React.Component {
      * @returns 菜单列表
      */
     getMenuItemList = () => {
-        return JSON.parse(window.localStorage.getItem("menuItemList")).map(item => {
-            return this.getMenuItem(item);
-        })
+        if (this.state['menuItemList'] != null) {
+            return this.state['menuItemList'].map(item => {
+                return this.getMenuItem(item);
+            })
+        }
     }
 
     /**
      * 登录成功后，修改菜单
      */
     changeMenu = () => {
-        let menuItemList = [
-            { key: "home", icon: "HomeOutlined", url: "/", name: "首页" },
-            { key: "tool", icon: "ToolOutlined", url: "/tools", name: "工具" },
-        ];
-        window.localStorage.setItem("menuItemList", JSON.stringify(menuItemList));
-        // 更改菜单后，强制重新渲染
-        this.forceUpdate();
+        this.setState({
+            menuItemList: JSON.parse(window.localStorage.getItem("menuItemList"))
+        });
     }
 
 

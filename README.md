@@ -1,1 +1,1 @@
-# lanfie[!https://github.com/anlance/lan_life] 前端应用
+# [lanfie](https://github.com/anlance/lan_life) 前端应用
