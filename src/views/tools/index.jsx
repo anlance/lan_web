@@ -4,6 +4,7 @@ import { Row, Col, Input, Empty, Card, Tooltip, Badge } from 'antd';
 import { empty } from '../../utils/strUtils';
 import { toolEnumList } from './toolEnum';
 import { colors } from './list';
+import MyColor from '../../components/tools/color';
 import './index.css'
 
 const { TextArea } = Input;
@@ -35,7 +36,7 @@ class Tools extends React.Component {
         let data = e.target.value;
         this.setState({
             data: e.target.value,
-            tool: toolEnumList(data,this.state.settings, this.state.format)[this.state.key]
+            tool: toolEnumList(data, this.state.settings, this.state.format)[this.state.key]
         })
     }
 
@@ -54,7 +55,7 @@ class Tools extends React.Component {
     switchTool = (key) => {
         this.setState({
             key: key,
-            tool: toolEnumList(this.state.data,this.state.settings, this.state.format)[key],
+            tool: toolEnumList(this.state.data, this.state.settings, this.state.format)[key],
             data: undefined
         });
     };
@@ -70,7 +71,7 @@ class Tools extends React.Component {
      * 获取所有的工具
      */
     getGridToolItem = () => {
-        return toolEnumList(this.state.data,this.state.settings, this.state.format).map(item => {
+        return toolEnumList(this.state.data, this.state.settings, this.state.format).map(item => {
             return this.getToolItme(item);
         })
     }
@@ -90,9 +91,30 @@ class Tools extends React.Component {
         return <Card.Grid style={this.state.tool['type'] === toolItem['type'] ? gridSelectedStyle : gridStyle} onClick={() => this.switchTool(toolItem['key'])}>{toolItem['name']}</Card.Grid>;
     }
 
+    /**
+     * 是否是颜色组件
+     */
+    isColor = () => {
+        return this.state.key === 4;
+    }
+
+    /**
+     * 颜色发生变化
+     * @param {color} color 
+     * @param {e} event 
+     */
+    handleColorChange = (color, event) => {
+        if (color !== undefined) {
+            this.setState({
+                data: color.hex,
+                tool: toolEnumList(color.hex, this.state.settings, this.state.format)[this.state.key]
+            })
+        } 
+    }
+
     render() {
 
-        let textAreaSize = { minRows: 15, maxRows: 19 }
+        let textAreaSize = { minRows: 15, maxRows: 19 };
 
         const cardStyle = {
             fontSize: '20px',
@@ -102,6 +124,8 @@ class Tools extends React.Component {
             borderRadius: '1vh'
         };
 
+        let editColor = this.isColor() ? <div style={{ paddingLeft: '400px' }}><MyColor color={this.state.data} onChange={this.handleColorChange} /></div> : null;
+
         return (
             <div style={{ minHeight: '87vh', backgroundColor: 'rgba(234, 236, 238 ,0.9)', borderRadius: '1vh' }}>
                 <Row style={{ minHeight: '60vh', padding: '20px' }}>
@@ -109,6 +133,7 @@ class Tools extends React.Component {
                         <Card style={cardStyle} hoverable>
                             <TextArea onChange={this.changeData} value={this.state.data} placeholder={this.state.tool.placeHolder} autoSize={textAreaSize}
                                 allowClear={true} showCount={true} style={{ fontSize: '20px' }} />
+                            {editColor}
                             <span style={{ fontSize: '20px', color: 'grey' }}>
                                 {colors.map(color => (
                                     <Badge color={color} key={color} />

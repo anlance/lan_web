@@ -2,6 +2,7 @@ import MyQrCode from '../../components/tools/qrcode';
 import MyJsonViewer from '../../components/tools/jsonViewer';
 import MyMoment from '../../components/tools/moment';
 import MyEncode from '../../components/tools/code';
+import ShowColor from '../../components/tools/color/showColor';
 import { fgColors } from './list';
 
 
@@ -44,7 +45,7 @@ export const toolEnumList = (data,settings,format) => [{
         'type': 'COLOR',
         'placeHolder': '输入颜色格式',
         'name': '颜色选择与转换',
-        'view': <div className="emptyDiv"><MyEncode str={data} /></div>,
+        'view': <div className="emptyDiv"><ShowColor hex={data}/></div>,
         'settings': undefined
     },
 ];
