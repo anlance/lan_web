@@ -1,5 +1,5 @@
 import React from 'react';
-import { BugOutlined } from '@ant-design/icons';
+import { HeartTwoTone  } from '@ant-design/icons';
 import './index.css'
 import { Layout } from 'antd';
 const { Footer } = Layout;
@@ -48,7 +48,7 @@ class MyFooter extends React.Component {
             let second = Math.floor(date / 1000);
             
             // 心跳
-            let heart = <BugOutlined style={{animation: 'heart 1s infinite', paddingLeft:'3px'}}/>;
+            let heart = <HeartTwoTone  twoToneColor="#eb2f96" style={{animation: 'heart 1s infinite', paddingLeft:'3px'}}/>;
 
 
             return (

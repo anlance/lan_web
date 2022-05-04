@@ -27,36 +27,50 @@ class LoginModal extends React.Component {
         const params = { username: values.username };
         GET(URL.basicUrl.getSalt, params)
             .then(response => {
-                // 获取 token
                 let loginPass = hex_md5(hex_md5(hex_md5(values.password) + response.data.salt) + response.data.randomCode);
-                let getTokenParm = {
-                    "username": values.username,
-                    "password": loginPass,
-                    "grant_type": "password",
-                    "scope": "ui",
-                    "client_id": "browser",
-                    "client_secret": "browser"
-                };
-                POST(URL.authUrl.getToken, getTokenParm)
-                    .then(response => {
-                        if (response.success === true) {
-                            // 设置 token
-                            window.localStorage.setItem("token", response.data.access_token);
-                            this.changeMenu();
-                            this.onCloseLoginForm();
-                        }
-                    })
+                this.doLogin(values.username, loginPass);
             });
-
-
     };
+
+
+    /**
+     *  登录
+     * @param {string} username 用户名 
+     * @param {string} loginPass 登录密码
+     */
+    doLogin = (username, loginPass) => {
+        let getTokenParm = {
+            "username": username,
+            "password": loginPass,
+            "grant_type": "password",
+            "scope": "ui",
+            "client_id": "browser",
+            "client_secret": "browser"
+        };
+        POST(URL.authUrl.getToken, getTokenParm)
+            .then(response => {
+                if (response.success === true) {
+                    // 设置 token
+                    window.localStorage.setItem("token", response.data.access_token);
+                    this.changeMenu();
+                }
+            })
+    }
 
     /**
      * 登录成功，改变菜单
      */
     changeMenu = () => {
-        this.props.changeMenu()
+        GET(URL.basicUrl.listMenu, null)
+            .then(response => {
+                if (response.success === true) {
+                    window.localStorage.setItem("menuItemList", JSON.stringify(response.data));
+                    this.props.changeMenu();
+                    this.onCloseLoginForm();
+                }
+            });
     }
+
 
     /**
      * 关闭登录Model

@@ -42,7 +42,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         cloneLoading()
-        if (response.data.success == false) {
+        if (response.data.success === false) {
             message.error(response.data.errMsg, 1.5)
         } else if (response.data.data && response.data.code === 200) {
             message.success(response.data.data, 1.5)
@@ -106,7 +106,10 @@ export function GET(url, params) {
     return service({
         url: url,
         method: 'get',
-        params: params
+        params: params,
+        headers: {
+            'Authorization': getTokenHeader()
+        }
     })
 }
 
@@ -121,7 +124,17 @@ export function POST(url, params) {
         url: url,
         data: JSON.stringify(params),
         headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Authorization': getTokenHeader()
         }
     })
+}
+
+function getTokenHeader() {
+    let token = window.localStorage.getItem("token");
+    if (token === null || token === undefined || token === '') {
+        return null;
+    } else {
+        return 'Bearer ' + window.localStorage.getItem("token");
+    }
 }

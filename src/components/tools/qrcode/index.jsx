@@ -3,10 +3,6 @@ import QRCode from 'qrcode.react';
 
 class MyQrCode extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
 
         return (
