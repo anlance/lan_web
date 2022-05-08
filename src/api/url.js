@@ -18,6 +18,16 @@ export const URL = {
          */
         listMenu: basicPrefix + '/menu/list',
 
+        /**
+         * 获取地图key
+         */
+        getMapKey: basicPrefix + '/user/webMap/getMapWebKey',
+
+        /**
+         * 获取PATH
+         */
+        getPath: basicPrefix +'/user/webMap/getLocationList',
+
     },
 
     // auth

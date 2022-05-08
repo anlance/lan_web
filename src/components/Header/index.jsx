@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Layout } from 'antd';
 import './index.css'
 import { Link } from 'react-router-dom';
-import { HomeOutlined, ToolOutlined, UserOutlined, FolderOpenOutlined } from '@ant-design/icons';
+import { HomeOutlined, ToolOutlined, UserOutlined, FolderOpenOutlined, CompassOutlined } from '@ant-design/icons';
 import LoginModal from '../loginModal';
 import { GET } from "../../api/http";
 import { URL } from '../../api/url';
@@ -73,6 +73,9 @@ class MyHeader extends React.Component {
                 break;
             case 'HomeOutlFolderOpenOutlinedined':
                 icon = <FolderOpenOutlined style={iconStyle} />;
+                break;
+            case 'CompassOutlined':
+                icon = <CompassOutlined style={iconStyle} />;
                 break;
             default:
                 icon = <HomeOutlined style={iconStyle} />;
