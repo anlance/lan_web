@@ -2,6 +2,10 @@ import React from 'react';
 import { Map, APILoader, Polyline, Geolocation } from '@uiw/react-amap';
 import { GET } from "../../api/http";
 import { URL } from '../../api/url';
+import { DatePicker } from 'antd';
+import moment from 'moment';
+
+const { RangePicker } = DatePicker;
 
 class Index extends React.Component {
 
@@ -17,8 +21,12 @@ class Index extends React.Component {
     /**
      * 获取定位数组
      */
-    getPath = () => {
-        GET(URL.basicUrl.getPath, null)
+    getPath = (startTime, endTime) => {
+        let vo = {
+            startTime: startTime,
+            endTime: endTime
+        }
+        GET(URL.basicUrl.getPath, vo)
             .then(response => {
                 if (response.success === true) {
                     this.setState({
@@ -26,6 +34,14 @@ class Index extends React.Component {
                     })
                 }
             });
+    }
+
+    onChange = (dates, dateStrings) => {
+        // console.log('From: ', dates[0], ', to: ', dates[1]);
+        console.log('From: ', dates);
+        // console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+        console.log('From: ', dateStrings);
+        this.getPath(dateStrings[0],dateStrings[1]);
     }
 
     render() {
@@ -54,6 +70,18 @@ class Index extends React.Component {
                             console.log('错误返回数据：', data);
                             // setData(data);
                         }} />
+
+                    <RangePicker
+                        ranges={{
+                            Today: [moment(), moment()],
+                            'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        }}
+                        showTime
+                        format="YYYY-MM-DD HH:mm:ss"
+                        onChange={this.onChange}
+                        style={{marginBottom: '20px'}}
+                    />
+
                     <Map >
                         <Polyline
                             visiable={true}
